@@ -1,0 +1,69 @@
+body {
+	color: white;
+	background-color: #222;
+	font-family: monospace;
+	padding: 0;
+	margin: 0;
+}
+
+div {
+	box-sizing: border-box;
+}
+
+#storage {
+	display: none;
+}
+
+#menu {
+	position: absolute;
+	width: 100%;
+	z-index: 10;
+	background-color: #222;
+	padding: .5em 1em;
+}
+
+#menu a {
+	display: inline-block;
+	padding: .5em 1em;
+	margin: .5em 0;
+	background-color: #2A912A;
+	cursor: pointer;
+}
+
+#menu a:hover, #menu a.active {
+	color: black;
+	background-color: white;
+}
+
+#menu a.updated {
+	background-color: #912A2C;
+}
+
+#main {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	overflow: auto;
+}
+
+#log {
+	padding: 1em 0;
+	color: white;
+	white-space: pre-wrap;
+}
+
+#log > div {
+	padding: .25em 1em;
+}
+
+#title {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	color: black;
+	background-color: #ccc;
+	padding: 0 1em;
+	line-height: 2em;
+}
