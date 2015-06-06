@@ -1,8 +1,10 @@
+var title = $('title').text();
 var currentPage;
 var logs = {};
 var titles = {};
 var lastLogs = {};
 var fresh = true;
+var flasher;
 
 function poll() {
 	$.getJSON('poll.php', {}, function(data) {
@@ -14,9 +16,11 @@ function poll() {
 function update(data) {
 	var menu = $('#menu');
 	var blank = $('#storage .menuItem').html();
-	var id, name, shortName, item;
+	var i, id, name, shortName, item;
 	var files = Object.keys(data);
 	var stop = files.length;
+	var updated = false;
+	var initialized = $('#menu a').length != 0;
 	
 	for(i = 0; i != stop; ++i) {
 		name = files[i];
@@ -33,10 +37,15 @@ function update(data) {
 		}
 		
 		if(logs[id] != lastLogs[id]) {
+			updated = true;
 			if(id == currentPage)
 				$('#log').html(makePretty(logs[id]));
 			else if(!fresh && !$('#menu a.' + id + 'Button').hasClass('updated'))
 				$('#menu a.' + id + 'Button').addClass('updated');
+		}
+		
+		if(initialized && updated && $(window).filter(':focus').length == 0) {
+			flashTitle();
 		}
 	}
 	resize();
@@ -80,6 +89,23 @@ function resize() {
 		$('#main').css('bottom', $('#title').outerHeight() + 'px');
 }
 
+function flashTitle() {
+	stopFlashTitle();
+	$('title').text('');
+	flasher = setInterval(function() {
+		$('title').text($('title').text() == '' ? title : '');
+	}, 1000);
+}
+
+function stopFlashTitle() {
+	clearInterval(flasher);
+	$('title').text(title);
+}
+
+function focus() {
+	stopFlashTitle();
+}
+
 
 
 poll();
@@ -87,3 +113,4 @@ setInterval(poll, pollingRate);
 resize();
 
 window.onresize = resize;
+window.onfocus = focus;
